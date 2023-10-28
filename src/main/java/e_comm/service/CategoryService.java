@@ -25,10 +25,10 @@ public class CategoryService {
     public ResponseEntity<String> addCategory(Category category) {
         try {
             if (jwtFilter.isAdmin()) {
-                Category category1 = categoryRepository.findByCategory(category.getName());
+                Category category1 = categoryRepository.findByCategory(category.getName().toLowerCase());
 
                 if (Objects.isNull(category1)) {
-
+                    category.setName(category.getName().toLowerCase());
                     categoryRepository.save(category);
 
                     return new ResponseEntity<>("added "+category.getName(),HttpStatus.CREATED);
@@ -64,7 +64,7 @@ public class CategoryService {
                     return new ResponseEntity<>("category not found",HttpStatus.BAD_REQUEST);
                 } else {
                     Category category1 = categoryOptional.get();
-                    category1.setName(category.getName());
+                    category1.setName(category.getName().toLowerCase());
                     categoryRepository.save(category1);
                     return new ResponseEntity<>("category updated",HttpStatus.OK);
                 }
