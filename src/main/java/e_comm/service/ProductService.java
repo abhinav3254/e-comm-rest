@@ -82,7 +82,37 @@ public class ProductService {
                 if (existingProduct.isEmpty()) {
                     return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
                 } else {
-                    Product productToUpdate = getProduct(product, existingProduct);
+                    Product productToUpdate = existingProduct.get();
+
+                    // Update the fields with new values if they are not null and not empty
+                    if (product.getName() != null && !product.getName().isEmpty()) {
+                        productToUpdate.setName(product.getName());
+                    }
+                    if (product.getPrice() != null) {
+                        productToUpdate.setPrice(product.getPrice());
+                    }
+                    if (product.getImg() != null && !product.getImg().isEmpty()) {
+                        productToUpdate.setImg(product.getImg());
+                    }
+                    if (product.getBrandName() != null && !product.getBrandName().isEmpty()) {
+                        productToUpdate.setBrandName(product.getBrandName());
+                    }
+                    if (product.getDescription() != null && !product.getDescription().isEmpty()) {
+                        productToUpdate.setDescription(product.getDescription());
+                    }
+                    if (product.getCategory() != null) {
+                        productToUpdate.setCategory(product.getCategory());
+                    }
+                    if (product.getWeight() != 0.0) {
+                        productToUpdate.setWeight(product.getWeight());
+                    }
+                    if (product.getHeight() != 0.0) {
+                        productToUpdate.setHeight(product.getHeight());
+                    }
+
+                    if (product.getQuantity() != null) {
+                        productToUpdate.setQuantity(product.getQuantity());
+                    }
 
                     // Save the updated product
                     Product updatedProduct = productRepository.save(productToUpdate);
@@ -99,41 +129,6 @@ public class ProductService {
             // Handle any exceptions that might occur during the update
             return new ResponseEntity<>("An error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private static Product getProduct(Product product, Optional<Product> existingProduct) {
-        Product productToUpdate = existingProduct.get();
-
-        // Update the fields with new values if they are not null and not empty
-        if (product.getName() != null && !product.getName().isEmpty()) {
-            productToUpdate.setName(product.getName());
-        }
-        if (product.getPrice() != null) {
-            productToUpdate.setPrice(product.getPrice());
-        }
-        if (product.getImg() != null && !product.getImg().isEmpty()) {
-            productToUpdate.setImg(product.getImg());
-        }
-        if (product.getBrandName() != null && !product.getBrandName().isEmpty()) {
-            productToUpdate.setBrandName(product.getBrandName());
-        }
-        if (product.getDescription() != null && !product.getDescription().isEmpty()) {
-            productToUpdate.setDescription(product.getDescription());
-        }
-        if (product.getCategory() != null) {
-            productToUpdate.setCategory(product.getCategory());
-        }
-        if (product.getWeight() != 0.0) {
-            productToUpdate.setWeight(product.getWeight());
-        }
-        if (product.getHeight() != 0.0) {
-            productToUpdate.setHeight(product.getHeight());
-        }
-
-        if (product.getQuantity() != null) {
-            productToUpdate.setQuantity(product.getQuantity());
-        }
-        return productToUpdate;
     }
 
     public ResponseEntity<String> deleteProduct(Long id) {
