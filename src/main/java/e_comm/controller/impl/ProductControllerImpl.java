@@ -1,6 +1,7 @@
 package e_comm.controller.impl;
 
 import e_comm.controller.ProductController;
+import e_comm.dto.ProductAddDTO;
 import e_comm.modal.Product;
 import e_comm.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class ProductControllerImpl implements ProductController {
     private ProductService productService;
 
     @Override
-    public ResponseEntity<String> addProduct(Product product) {
+    public ResponseEntity<String> addProduct(ProductAddDTO product) {
         return productService.addProduct(product);
     }
 

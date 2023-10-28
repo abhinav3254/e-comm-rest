@@ -1,6 +1,7 @@
 package e_comm.controller;
 
 
+import e_comm.dto.ProductAddDTO;
 import e_comm.modal.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface ProductController {
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProduct(@RequestBody Product product);
+    public ResponseEntity<String> addProduct(@RequestBody ProductAddDTO product);
 
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts();

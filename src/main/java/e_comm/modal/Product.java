@@ -18,6 +18,8 @@ public class Product {
     private Double price;
     private String img;
 
+    private String brandName;
+
     @Column(length = 2000)
     private String description;
 
