@@ -24,6 +24,7 @@ public class UserInitializer implements CommandLineRunner {
             User user = new User();
             user.setEmail("admin");
             user.setPassword("12");
+            user.setRole("admin");
             user.setStatus(true);
 
             userRepository.save(user);
