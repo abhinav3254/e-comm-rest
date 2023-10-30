@@ -17,11 +17,15 @@ public interface CartItemController {
     @GetMapping("/get")
     public ResponseEntity<List<CartItem>> getAllCartItem();
 
-    @PostMapping("/update/{quantity}")
-    public ResponseEntity<String> updateQuantity(@Param("quantity") Integer quantity);
+    @PostMapping("/increment/{productId}")
+    public ResponseEntity<String> incrementQuantity(@PathVariable("productId") Long productId);
+
+    @PostMapping("/decrement/{productId}")
+    public ResponseEntity<String> decrementQuantity(@PathVariable("productId") Long productId);
+
 
     @DeleteMapping("/delete/{cartItemId}")
-    public ResponseEntity<String> deleteCartItem(@Param("cartItemId") Long cartItemId);
+    public ResponseEntity<String> deleteOneCartItem(@Param("cartItemId") Long cartItemId);
 
 
 }

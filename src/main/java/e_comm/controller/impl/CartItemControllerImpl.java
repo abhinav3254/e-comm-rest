@@ -27,12 +27,17 @@ public class CartItemControllerImpl implements CartItemController {
     }
 
     @Override
-    public ResponseEntity<String> updateQuantity(Integer quantity) {
-        return cartItemService.updateQuantity(quantity);
+    public ResponseEntity<String> incrementQuantity(Long productId) {
+        return cartItemService.incrementQuantity(productId);
     }
 
     @Override
-    public ResponseEntity<String> deleteCartItem(Long cartItemId) {
-        return cartItemService.deleteCartItem(cartItemId);
+    public ResponseEntity<String> decrementQuantity(Long productId) {
+        return cartItemService.decrementQuantity(productId);
+    }
+
+    @Override
+    public ResponseEntity<String> deleteOneCartItem(Long cartItemId) {
+        return cartItemService.deleteOneCartItem(cartItemId);
     }
 }

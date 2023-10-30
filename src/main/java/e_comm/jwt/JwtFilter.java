@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import e_comm.modal.User;
+import e_comm.repo.UserRepository;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     private Claims claims;
 
@@ -125,6 +130,10 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     public String getCurrentUser() {
         return userName;
+    }
+
+    public User getLoggedInUser() {
+        return userRepository.findUserByEmail(getCurrentUser());
     }
 
 }

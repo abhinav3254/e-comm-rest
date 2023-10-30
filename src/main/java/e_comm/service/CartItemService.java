@@ -46,6 +46,10 @@ public class CartItemService {
                 cartItem.setProduct(product);
                 cartItem.setQuantity(1);
 
+                cartItemRepository.save(cartItem);
+
+                return new ResponseEntity<>("Added to cart",HttpStatus.OK);
+
             } return new ResponseEntity<>("product not found",HttpStatus.NOT_FOUND);
 
 
@@ -58,14 +62,8 @@ public class CartItemService {
     public ResponseEntity<List<CartItem>> getAllCartItem() {
         try {
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    public ResponseEntity<String> updateQuantity(Integer quantity) {
-        try {
+            List<CartItem> list = cartItemRepository.findByUser(jwtFilter.getLoggedInUser());
+            return new ResponseEntity<>(list,HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,8 +71,64 @@ public class CartItemService {
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public ResponseEntity<String> deleteCartItem(Long cartItemId) {
+    public ResponseEntity<String> incrementQuantity(Long productId) {
         try {
+
+            Optional<Product> productOptional = productRepository.findById(productId);
+            if(productOptional.isPresent()) {
+
+                CartItem cartItem = cartItemRepository.findByProductAndUser(productOptional.get(),jwtFilter.getLoggedInUser());
+
+                cartItem.setQuantity(cartItem.getQuantity()+1);
+
+                cartItemRepository.save(cartItem);
+
+                return new ResponseEntity<>("incremented",HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>("product not found",HttpStatus.NOT_FOUND);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public ResponseEntity<String> decrementQuantity(Long productId) {
+        try {
+
+            Optional<Product> productOptional = productRepository.findById(productId);
+            if(productOptional.isPresent()) {
+
+                CartItem cartItem = cartItemRepository.findByProductAndUser(productOptional.get(),jwtFilter.getLoggedInUser());
+
+                cartItem.setQuantity(cartItem.getQuantity()-1);
+
+                if (cartItem.getQuantity()>0) {
+                    cartItemRepository.save(cartItem);
+                } else {
+                    cartItemRepository.deleteById(cartItem.getId());
+                    return new ResponseEntity<>("Item removed from cart",HttpStatus.OK);
+                }
+
+                return new ResponseEntity<>("decremented",HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>("product not found",HttpStatus.NOT_FOUND);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    public ResponseEntity<String> deleteOneCartItem(Long cartItemId) {
+        try {
+
+            cartItemRepository.deleteById(cartItemId);
+            return new ResponseEntity<>("Deleted Item",HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
