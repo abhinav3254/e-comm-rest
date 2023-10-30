@@ -23,4 +23,7 @@ public interface ProductController {
     @PostMapping("/delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id);
 
+    @PostMapping("/search/{query}")
+    public ResponseEntity<List<Product>> searchProduct(@PathVariable String query);
+
 }

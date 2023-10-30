@@ -36,4 +36,9 @@ public class ProductControllerImpl implements ProductController {
     public ResponseEntity<String> deleteProduct(Long id) {
         return productService.deleteProduct(id);
     }
+
+    @Override
+    public ResponseEntity<List<Product>> searchProduct(String query) {
+        return productService.searchProduct(query);
+    }
 }
